@@ -107,7 +107,7 @@ for (session in session_names){
                                                    region,
                                                    ".txt")), header = F)
     # get design matrix
-    names(task) <- paste0(session, region)
+    names(task) <- make.names(paste0(session, region))
     design <- as.matrix(task)
     # Bayes GLM model
     system.time(
@@ -128,7 +128,7 @@ for (session in session_names){
                        ar_order = 3,
                        ar_smooth = 0,
                        Bayes = TRUE,
-                       verbose = 2,
+                       verbose = 0,
                        meanTol = 1))
     # save the model results
     saveRDS(bglm, file = file.path(results_path, paste0(session, region, "_BayesGLM_result.rds")))
