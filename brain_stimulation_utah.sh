@@ -3,9 +3,9 @@
 #SBATCH -A r01304
 #SBATCH -p general
 #SBATCH --job-name=brain_stimulation_utah
-#SBATCH --ntasks=1
+#SBATCH --ntasks-per-node=1
 #SBATCH --nodes=1
-#SBATCH --cpus-per-task=8
+#SBATCH --cpus-per-task=12
 #SBATCH --mem-per-cpu=32G
 
 #SBATCH --output=/N/u/wuyuno/Quartz/Documents/BrainStimulation-paper/output/brain_stimulation_utah_%A_%a.out.txt
