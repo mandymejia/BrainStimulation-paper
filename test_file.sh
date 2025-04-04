@@ -20,4 +20,4 @@ module load udunits
 module load proj
 module load gdal
 
-R CMD BATCH /N/u/wuyuno/Quartz/Documents/GitHub/BrainStimulation-paper/test_file.R
+Rscript /N/u/wuyuno/Quartz/Documents/GitHub/BrainStimulation-paper/test_file.R
