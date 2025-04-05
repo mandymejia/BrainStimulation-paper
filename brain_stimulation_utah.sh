@@ -5,8 +5,8 @@
 #SBATCH --job-name=brain_stimulation_utah
 #SBATCH --ntasks-per-node=1
 #SBATCH --nodes=1
-#SBATCH --cpus-per-task=12
-#SBATCH --mem-per-cpu=32G
+#SBATCH --cpus-per-task=8
+#SBATCH --mem-per-cpu=20G
 
 #SBATCH --output=/N/u/wuyuno/Quartz/Documents/BrainStimulation-paper/output/brain_stimulation_utah_%A_%a.out.txt
 #SBATCH --error=/N/u/wuyuno/Quartz/Documents/BrainStimulation-paper/error/brain_stimulation_utah_%A_%a.err.txt
