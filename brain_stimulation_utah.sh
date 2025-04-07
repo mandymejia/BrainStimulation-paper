@@ -15,9 +15,11 @@
 #SBATCH --time=4-00:00:00
 
 module load r
-module load geos
-module load udunits
 module load proj
+module load gsl
+module load udunits
 module load gdal
+module load geos
+
 
 R CMD BATCH /N/u/wuyuno/Quartz/Documents/GitHub/BrainStimulation-paper/brain_stimulation_utah.R
