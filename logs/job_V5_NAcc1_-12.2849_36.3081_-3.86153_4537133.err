@@ -1,0 +1,40 @@
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+The legacy packages maptools, rgdal, and rgeos, underpinning the sp package,
+which was just loaded, will retire in October 2023.
+Please refer to R-spatial evolution reports for details, especially
+https://r-spatial.org/r/2023/05/15/evolution4.html.
+It may be desirable to make the sf package available;
+package maintainers should consider adding sf to Suggests:.
+The sp package is now running under evolution status 2
+     (status 2 uses the sf package in place of rgdal)
+
+Attaching package: ‘BayesfMRI’
+
+The following object is masked from ‘package:hrf’:
+
+    do_QC
+
+
+WARNING: recomputed pixdim doesn't exactly match the original header in file '/N/scratch/wuyuno/R/tmp/RtmpyQ9pkH/sep.labels.nii', FSL may complain about output file(s)
+
+
+ *** caught bus error ***
+address 0x7fe42635b000, cause 'unknown'
+
+Traceback:
+ 1: fMRItools::nuisance_regression(BOLD[[ss]], design[[ss]][, vcols_ss])
+ 2: GLM_est_resid_var_pw(BOLD, design, spatial, session_names, field_names,     design_type, valid_cols, nT, ar_order, ar_smooth, aic, n_threads,     do$pw)
+ 3: fit_bayesglm(BOLD = BOLD[[dname_bb]], design = design_bb, nuisance = nuisance,     scrub = scrub, spatial = spatial[[dname_bb]], scale_BOLD = scale_BOLD,     Bayes = do$Bayesian, hyperpriors = hyperpriors, ar_order = ar_order,     ar_smooth = ar_smooth, aic = aic, n_threads = n_threads,     return_INLA = return_INLA, verbose = verbose, meanTol = meanTol,     varTol = varTol)
+ 4: BayesGLM(BOLD = BOLD, design = design, brainstructures = "all",     subROI = c("Accumbens-L", "Accumbens-R", "Amygdala-L", "Amygdala-R",         "Hippocampus-L", "Hippocampus-R"), TR = TR, nuisance = nuisance_numeric,     scrub = scrubbing_numeric, scale_BOLD = "mean", hpf = 0.01,     surfL = surf_L, surfR = surf_R, resamp_res = 10000, nbhd_order = 1,     ar_order = 3, ar_smooth = 0, Bayes = TRUE, verbose = 0, meanTol = 1)
+An irrecoverable exception occurred. R is aborting now ...
+/var/spool/slurm/job4537133/slurm_script: line 19: 116319 Bus error               (core dumped) Rscript "$1"
