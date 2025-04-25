@@ -38,6 +38,7 @@ nuisance_numeric[is.na(nuisance_numeric)] <- 0
 
 task <- read.table(file.path(data_path, paste0("sub-UA001_ses-", session, "_space-T1w_sphere_template_", region, ".txt")), header = FALSE)
 names(task) <- make.names(paste0(session, region))
+task <- as.data.frame(scale(task, center = TRUE, scale = TRUE))  
 design <- as.matrix(task)
 
 bglm <- BayesGLM(
@@ -48,7 +49,7 @@ bglm <- BayesGLM(
   TR = TR,
   nuisance = nuisance_numeric,
   scrub = scrubbing_numeric,
-  scale_BOLD = "mean",
+  scale_BOLD = "sd",
   hpf = 0.01,
   surfL = surf_L,
   surfR = surf_R,
