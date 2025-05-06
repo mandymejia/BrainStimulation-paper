@@ -66,10 +66,13 @@ files <- list.files(path = data_path, pattern = "sub-.*_ses-.*_space-T1w_sphere_
 session_names <- unique(gsub(".*_ses-([A-Za-z0-9]+)_.*", "\\1", files))
 region_names <- unique(gsub(".*sphere_template_([^/]+)\\.txt", "\\1", files)) 
 
-
-for (session in session_names){
+nSess <- length(session_names)
+BOLD <- nuisance_numeric <- scrubbing_numeric <- vector('list', nSess)
+for (ss in 1:nSess){
   # read BOLD signals
-  BOLD <- read_xifti(file.path(data_path,
+  
+  session <- session_names[ss]
+  BOLD[[ss]] <- read_xifti(file.path(data_path,
                                paste0("sub-UA001_ses-",
                                       session,
                                       "_task-rest_space-fsLR_den-91k_bold.dtseries.nii")))
@@ -95,9 +98,10 @@ for (session in session_names){
   )
   nuisance <- confounds %>% select(all_of(nuisance_cols))
   # convert them to numeric format
-  scrubbing_numeric <- apply(scrubbing, 2, as.numeric)
-  nuisance_numeric <- suppressWarnings(apply(nuisance, 2, as.numeric))
-  nuisance_numeric[is.na(nuisance_numeric)] <- 0
+  scrubbing_numeric[[ss]] <- apply(scrubbing, 2, as.numeric)
+  nuisance_numeric_ss <- suppressWarnings(apply(nuisance, 2, as.numeric))
+  nuisance_numeric_ss[is.na(nuisance_numeric_ss)] <- 0
+  nuisance_numeric[[ss]] <- nuisance_numeric_ss
   
   for (region in region_names){
     # read task files
@@ -106,6 +110,8 @@ for (session in session_names){
                                                    "_space-T1w_sphere_template_",
                                                    region,
                                                    ".txt")), header = F)
+    task <- scale(task)
+    
     # get design matrix
     names(task) <- make.names(paste0(session, region))
     design <- as.matrix(task)
@@ -119,7 +125,7 @@ for (session in session_names){
                        TR = TR,
                        nuisance = nuisance_numeric,
                        scrub = scrubbing_numeric,
-                       scale_BOLD = 'mean',
+                       scale_BOLD = 'sd',
                        hpf = .01,
                        surfL = surf_L,
                        surfR = surf_R,
@@ -128,7 +134,7 @@ for (session in session_names){
                        ar_order = 3,
                        ar_smooth = 0,
                        Bayes = TRUE,
-                       verbose = 0,
+                       verbose = 1,
                        meanTol = 1))
     # save the model results
     saveRDS(bglm, file = file.path(results_path, paste0(session, region, "_BayesGLM_result.rds")))
