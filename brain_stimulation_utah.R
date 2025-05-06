@@ -67,20 +67,27 @@ session_names <- unique(gsub(".*_ses-([A-Za-z0-9]+)_.*", "\\1", files))
 region_names <- unique(gsub(".*sphere_template_([^/]+)\\.txt", "\\1", files)) 
 
 nSess <- length(session_names)
-BOLD <- nuisance_numeric <- scrubbing_numeric <- vector('list', nSess)
-for (ss in 1:nSess){
-  # read BOLD signals
-  
-  session <- session_names[ss]
-  BOLD[[ss]] <- read_xifti(file.path(data_path,
-                               paste0("sub-UA001_ses-",
-                                      session,
-                                      "_task-rest_space-fsLR_den-91k_bold.dtseries.nii")))
-  # read confounders
-  confounds <- read.table(file.path(data_path,
-                                    paste0("sub-UA001_ses-",
-                                           session,
-                                           "_task-rest_desc-confounds_timeseries.tsv")), header = T)
+
+#parallelize this loop
+for (region in region_names){
+
+  BOLD <- nuisance_numeric <- scrubbing_numeric <- vector('list', nSess)
+  design <- vector('list', length=nS)
+
+  for (ss in 1:nSess){
+    # read BOLD signals
+    
+    session <- session_names[ss]
+    
+    BOLD[[ss]] <- read_xifti(file.path(data_path,
+                                 paste0("sub-UA001_ses-",
+                                        session,
+                                        "_task-rest_space-fsLR_den-91k_bold.dtseries.nii")))
+    # read confounders
+    confounds <- read.table(file.path(data_path,
+                                      paste0("sub-UA001_ses-",
+                                             session,
+                                             "_task-rest_desc-confounds_timeseries.tsv")), header = T)
   # get TR and nT
   TR <- BOLD$meta$cifti$time_step
   nT <- ncol(BOLD)
@@ -103,18 +110,24 @@ for (ss in 1:nSess){
   nuisance_numeric_ss[is.na(nuisance_numeric_ss)] <- 0
   nuisance_numeric[[ss]] <- nuisance_numeric_ss
   
-  for (region in region_names){
-    # read task files
-    task <- read.table(file.path(data_path, paste0("sub-UA001_ses-",
-                                                   session,
-                                                   "_space-T1w_sphere_template_",
-                                                   region,
-                                                   ".txt")), header = F)
-    task <- scale(task)
     
+  # read task files
+  task <- read.table(file.path(data_path, paste0("sub-UA001_ses-",
+                                                 session,
+                                                 "_space-T1w_sphere_template_",
+                                                 region,
+                                                 ".txt")), header = F)
+  task <- scale(task)
+  
     # get design matrix
     names(task) <- make.names(paste0(session, region))
-    design <- as.matrix(task)
+    design[[ss]] <- as.matrix(task)
+    
+
+  } #end loop over sessions, all lists are now constructed
+    
+    
+    
     # Bayes GLM model
     system.time(
       bglm <- BayesGLM(BOLD = BOLD,
@@ -138,6 +151,5 @@ for (ss in 1:nSess){
                        meanTol = 1))
     # save the model results
     saveRDS(bglm, file = file.path(results_path, paste0(session, region, "_BayesGLM_result.rds")))
-  }
 }
 
