@@ -21,7 +21,7 @@ for(r in region){
     
     #pfname <- gsub('_.+','', f)
     fname_plot <- gsub('_BayesGLM_result.rds','',f)
-    plot(GLM_f, zlim = c(-0.1,0.1), fname = file.path('Plots', fname_plot))
+    plot(GLM_f, zlim = c(-0.3,0.3), Bayes = FALSE), fname = file.path('Plots', fname_plot))
   }
   
 }
