@@ -1,0 +1,36 @@
+Using this Workbench path: '/geode2/home/u080/saiwolf/Quartz/Downloads/workbench/bin_rh_linux64/wb_command'.
+Number of BOLD sessions:  6 
+Session names:            sess_1, sess_2, sess_3, sess_4, sess_5, sess_6 
+Number of timepoints:     1500 
+Number of fields:         1 (V1)
+Num. nuisance regressors: 33 
+Num. volumes to scrub:    14 - 58 
+Including 24 DCT bases in `nuisance` for highpass filtering.
+Skipping collinearity checks due to error.
+Skipping collinearity checks due to error.
+Skipping collinearity checks due to error.
+Skipping collinearity checks due to error.
+Skipping collinearity checks due to error.
+Skipping collinearity checks due to error.
+Resampling BOLD data for session 1, 2, 3, 4, 5, 6.
+Brain structures:         left, right, subcortical 
+Subcortical ROIs:         Accumbens-L, Accumbens-R, Amygdala-L, Amygdala-R, Hippocampus-L, Hippocampus-R 
+Subcortical voxel size:   2 x 2 x 2 mm 
+
+Left cortex analysis:
+	Putting an informative prior on kappa so that the spatial range is between 1.33 and 77.94 mm.
+		Log kappa prior range (95% density): -3.32 to 0.75
+	Putting an informative prior on tau so variance of the spatial field is between 0.01 and 1.
+		Log tau prior range (95% density): -0.41 to 1.89
+	848 vertices do not have data.
+	94 locations removed due to low mean in at least one session.
+	Number of modeled data locations: 9300 
+	Number of modeled data + boundary locations: 10242 
+	BOLD and design nuisance regression.
+	Scrubbing 58 volumes from session 1.
+	Scrubbing 42 volumes from session 2.
+	Scrubbing 13 volumes from session 3.
+	Scrubbing 33 volumes from session 4.
+	Scrubbing 34 volumes from session 5.
+	Scrubbing 53 volumes from session 6.
+	Estimating prewhitening parameters.

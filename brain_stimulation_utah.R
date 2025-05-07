@@ -90,8 +90,8 @@ for (region in region_names){
                                              session,
                                              "_task-rest_desc-confounds_timeseries.tsv")), header = T)
   # get TR and nT
-  TR <- BOLD$meta$cifti$time_step
-  nT <- ncol(BOLD)
+  TR <- BOLD[[ss]]$meta$cifti$time_step
+  nT <- ncol(BOLD[[ss]])
   # select scrubbing and nuisance variables
   scrubbing <- confounds %>% select(contains("outlier"))
   nuisance_cols <- c(
