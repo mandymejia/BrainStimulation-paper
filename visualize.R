@@ -20,8 +20,11 @@ for(r in region){
     GLM_f <- readRDS(file.path('Results', f))  
     
     #pfname <- gsub('_.+','', f)
-    fname_plot <- gsub('_BayesGLM_result.rds','',f)
-    plot(GLM_f, zlim = c(-0.3,0.3), Bayes = FALSE), fname = file.path('Plots', fname_plot))
+    fname_plot <- gsub('_result.rds','',f)
+    #plot(GLM_f, zlim = c(-0.3,0.3), Bayes = TRUE, fname = file.path('Plots', fname_plot))
+
+    fname_plot <- gsub('Bayes','classical',fname_plot)
+    plot(GLM_f, zlim = c(-0.3,0.3), Bayes = FALSE, fname = file.path('Plots', fname_plot))
   }
   
 }
